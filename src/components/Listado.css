@@ -1,0 +1,27 @@
+/* Sidebar estilos para tema claro y oscuro */
+[data-bs-theme="light"] .sidebar {
+  background: #fff;
+  color: #212529;
+}
+[data-bs-theme="dark"] .sidebar {
+  background: #212529;
+  color: #f8f9fa;
+}
+.sidebar-title {
+  color: inherit !important;
+}
+.sidebar-link {
+  color: inherit !important;
+}
+
+/* Footer estilos para tema claro y oscuro */
+[data-bs-theme="light"] .footer {
+  background: #fff;
+  color: #212529;
+  border-top: 1px solid #dee2e6;
+}
+[data-bs-theme="dark"] .footer {
+  background: #212529;
+  color: #f8f9fa;
+  border-top: 1px solid #343a40;
+}

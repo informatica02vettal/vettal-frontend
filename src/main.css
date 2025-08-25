@@ -14,6 +14,16 @@ body {
   padding: 1rem;
   background-color: #212529; /* text-bg-dark */
   color: #fff;
+  transition: width 0.3s;
+}
+/* Sidebar expandido/colapsado */
+.sidebar.collapsed {
+  width: 60px !important;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.sidebar.expanded {
+  width: 280px !important;
 }
 
 /* Scroll interno si es necesario */
@@ -26,6 +36,9 @@ body {
   font-size: .875rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .sidebar .nav-link:hover {
