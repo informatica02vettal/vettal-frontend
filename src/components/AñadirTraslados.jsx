@@ -8,17 +8,16 @@ const AñadirTraslados = () => {
     comentarios: ''
   });
 
-  const [nuevoArticulo, setNuevoArticulo] = useState({
-    codigo: '',
-    cantidad: '',
-    nombre: '',
-    stockDisponible: ''
-  });
-
   const [articulos, setArticulos] = useState([]);
   const [depositos, setDepositos] = useState([]);
   const [articulosDisponibles, setArticulosDisponibles] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Modal states
+  const [modalVisible, setModalVisible] = useState(false);
+  const [busqueda, setBusqueda] = useState('');
+  const [seleccionado, setSeleccionado] = useState(null);
+  const [cantidad, setCantidad] = useState('');
 
   useEffect(() => {
     setTimeout(() => {
@@ -42,55 +41,43 @@ const AñadirTraslados = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleArticuloInput = (e) => {
-    const { name, value } = e.target;
+  const abrirModal = () => {
+    setModalVisible(true);
+    setBusqueda('');
+    setSeleccionado(null);
+    setCantidad('');
+  };
 
-    if (name === 'codigo') {
-      const articulo = articulosDisponibles.find(a => a.codigo === value);
-      setNuevoArticulo({
-        codigo: value,
-        cantidad: '',
-        nombre: articulo ? articulo.nombre : '',
-        stockDisponible: articulo ? articulo.stock : ''
-      });
-    } else {
-      setNuevoArticulo({ ...nuevoArticulo, [name]: value });
-    }
+  const cerrarModal = () => {
+    setModalVisible(false);
   };
 
   const agregarArticulo = () => {
-    const { codigo, cantidad, stockDisponible } = nuevoArticulo;
-
-    if (!codigo || !cantidad) {
-      alert('Completa el código y la cantidad');
-      return;
-    }
+    if (!seleccionado || !cantidad) return;
 
     const cantidadNum = parseInt(cantidad);
-    const stockNum = parseInt(stockDisponible);
-
     if (isNaN(cantidadNum) || cantidadNum <= 0) {
-      alert('La cantidad debe ser un número mayor a cero');
+      alert('Cantidad inválida');
       return;
     }
 
-    if (cantidadNum > stockNum) {
-      alert('La cantidad excede el stock disponible');
+    if (cantidadNum > seleccionado.stock) {
+      alert('Cantidad excede el stock disponible');
       return;
     }
 
     setArticulos([...articulos, {
-      codigo,
+      codigo: seleccionado.codigo,
       cantidad: cantidadNum
     }]);
 
-    setNuevoArticulo({
-      codigo: '',
-      cantidad: '',
-      nombre: '',
-      stockDisponible: ''
-    });
+    cerrarModal();
   };
+
+  const resultados = articulosDisponibles.filter(p =>
+    p.codigo.toLowerCase().includes(busqueda.toLowerCase()) ||
+    p.nombre.toLowerCase().includes(busqueda.toLowerCase())
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -100,14 +87,7 @@ const AñadirTraslados = () => {
   };
 
   if (loading) {
-    return (
-      <main className="container py-4">
-        <div className="text-center">
-          <div className="spinner-border text-primary" role="status"></div>
-          <p className="mt-2">Cargando datos desde la base de datos...</p>
-        </div>
-      </main>
-    );
+    return <div className="container py-4 text-center">Cargando datos...</div>;
   }
 
   return (
@@ -149,69 +129,14 @@ const AñadirTraslados = () => {
         {/* Artículos */}
         <div className="col-12">
           <h2 className="h6 mb-3 mt-4">Artículos del traslado</h2>
-          <div className="row g-2 mb-3">
-            {/* Código con datalist */}
-            <div className="col-md-3">
-              <input
-                list="codigos"
-                name="codigo"
-                value={nuevoArticulo.codigo}
-                onChange={handleArticuloInput}
-                className="form-control form-control-sm"
-                placeholder="Código"
-              />
-              <datalist id="codigos">
-                {articulosDisponibles.map((art, i) => (
-                  <option key={i} value={art.codigo} />
-                ))}
-              </datalist>
-            </div>
 
-            {/* Nombre visual */}
-            <div className="col-md-3">
-              <input
-                type="text"
-                value={nuevoArticulo.nombre}
-                className="form-control form-control-sm"
-                placeholder="Nombre"
-                readOnly
-              />
-            </div>
-
-            {/* Stock disponible */}
-            <div className="col-md-2">
-              <input
-                type="text"
-                value={nuevoArticulo.stockDisponible}
-                className="form-control form-control-sm"
-                placeholder="Stock"
-                readOnly
-              />
-            </div>
-
-            {/* Cantidad a trasladar */}
-            <div className="col-md-2">
-              <input
-                type="number"
-                name="cantidad"
-                value={nuevoArticulo.cantidad}
-                onChange={handleArticuloInput}
-                className="form-control form-control-sm"
-                placeholder="Cantidad"
-              />
-            </div>
-
-            {/* Botón agregar */}
-            <div className="col-md-2">
-              <button
-                type="button"
-                className="btn btn-success btn-sm w-100"
-                onClick={agregarArticulo}
-              >
-                <i className="fa-solid fa-plus me-1"></i>Agregar
-              </button>
-            </div>
-          </div>
+          <button
+            type="button"
+            className="btn btn-outline-primary btn-sm mb-3"
+            onClick={abrirModal}
+          >
+            <i className="fa-solid fa-plus me-2"></i>Agregar artículo
+          </button>
 
           {/* Tabla de artículos */}
           <div className="table-responsive">
@@ -259,6 +184,60 @@ const AñadirTraslados = () => {
           </button>
         </div>
       </form>
+
+      {/* Modal */}
+      {modalVisible && (
+        <div className="modal d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Buscar producto</h5>
+                <button type="button" className="btn-close" onClick={cerrarModal}></button>
+              </div>
+              <div className="modal-body">
+                <input
+                  type="text"
+                  className="form-control mb-3"
+                  placeholder="Buscar por código o nombre"
+                  value={busqueda}
+                  onChange={(e) => setBusqueda(e.target.value)}
+                />
+
+                <div className="list-group">
+                  {resultados.map((prod, i) => (
+                    <button
+                      key={i}
+                      className={`list-group-item list-group-item-action ${seleccionado?.codigo === prod.codigo ? 'active' : ''}`}
+                      onClick={() => setSeleccionado(prod)}
+                    >
+                      <strong>{prod.nombre}</strong> — <small>{prod.codigo}</small> | Stock: {prod.stock}
+                    </button>
+                  ))}
+                </div>
+
+                {seleccionado && (
+                  <div className="mt-4">
+                    <h6>Seleccionado: {seleccionado.nombre}</h6>
+                    <input
+                      type="number"
+                      className="form-control"
+                      placeholder="Cantidad a trasladar"
+                      value={cantidad}
+                      onChange={(e) => setCantidad(e.target.value)}
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" onClick={cerrarModal}>Cancelar</button>
+                <button type="button" className="btn btn-primary" onClick={agregarArticulo} disabled={!seleccionado || !cantidad}>
+                  Agregar al traslado
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 };
