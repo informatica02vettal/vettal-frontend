@@ -13,7 +13,6 @@ const AñadirTraslados = () => {
   const [articulosDisponibles, setArticulosDisponibles] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Modal states
   const [modalVisible, setModalVisible] = useState(false);
   const [busqueda, setBusqueda] = useState('');
   const [seleccionado, setSeleccionado] = useState(null);
@@ -36,6 +35,10 @@ const AñadirTraslados = () => {
       setLoading(false);
     }, 1000);
   }, []);
+
+  const truncarTexto = (texto, maxLength) => {
+    return texto.length > maxLength ? texto.slice(0, maxLength) + '...' : texto;
+  };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -94,7 +97,6 @@ const AñadirTraslados = () => {
     <main className="container py-4">
       <h1 className="h5 mb-4">Registro de Traslado</h1>
       <form className="row g-3" onSubmit={handleSubmit}>
-        {/* Depósitos */}
         <div className="col-md-6">
           <label className="form-label">Depósito Origen</label>
           <select
@@ -126,10 +128,8 @@ const AñadirTraslados = () => {
           </select>
         </div>
 
-        {/* Artículos */}
         <div className="col-12">
           <h2 className="h6 mb-3 mt-4">Artículos del traslado</h2>
-
           <button
             type="button"
             className="btn btn-outline-primary btn-sm mb-3"
@@ -138,7 +138,6 @@ const AñadirTraslados = () => {
             <i className="fa-solid fa-plus me-2"></i>Agregar artículo
           </button>
 
-          {/* Tabla de artículos */}
           <div className="table-responsive">
             <table className="table table-striped table-sm align-middle">
               <thead>
@@ -165,7 +164,6 @@ const AñadirTraslados = () => {
           </div>
         </div>
 
-        {/* Comentarios */}
         <div className="col-12">
           <h2 className="h6 mb-3 mt-4">Comentario</h2>
           <textarea
@@ -177,7 +175,6 @@ const AñadirTraslados = () => {
           />
         </div>
 
-        {/* Botón final */}
         <div className="col-12">
           <button type="submit" className="btn btn-primary mt-3">
             <i className="fa-solid fa-floppy-disk me-2"></i>Guardar Traslado
@@ -185,7 +182,6 @@ const AñadirTraslados = () => {
         </div>
       </form>
 
-      {/* Modal */}
       {modalVisible && (
         <div className="modal d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
           <div className="modal-dialog modal-lg" role="document">
@@ -210,7 +206,7 @@ const AñadirTraslados = () => {
                       className={`list-group-item list-group-item-action ${seleccionado?.codigo === prod.codigo ? 'active' : ''}`}
                       onClick={() => setSeleccionado(prod)}
                     >
-                      <strong>{prod.nombre}</strong> — <small>{prod.codigo}</small> | Stock: {prod.stock}
+                      {prod.codigo} - {truncarTexto(prod.nombre, 25)} - {prod.stock} unidades
                     </button>
                   ))}
                 </div>
