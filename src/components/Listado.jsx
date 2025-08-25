@@ -32,7 +32,7 @@ const ListadoTraslados = () => {
           onClick={handleAdd}
           className="btn btn-primary btn-sm d-flex align-items-center"
         >
-          <i className="fa-solid fa-circle-plus me-1"></i>
+          <i class="fa-solid fa-plus"></i>
           <span>Añadir</span>
         </button>
       </div>
