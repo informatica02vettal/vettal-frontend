@@ -69,17 +69,38 @@ const AñadirTraslados = () => {
       return;
     }
 
-    setArticulos([...articulos, {
-      codigo: seleccionado.codigo,
-      cantidad: cantidadNum
-    }]);
+    const existente = articulos.find(a => a.codigo === seleccionado.codigo);
+
+    if (existente) {
+      setArticulos(prev =>
+        prev.map(a =>
+          a.codigo === seleccionado.codigo
+            ? { ...a, cantidad: a.cantidad + cantidadNum }
+            : a
+        )
+      );
+    } else {
+      setArticulos([...articulos, {
+        codigo: seleccionado.codigo,
+        cantidad: cantidadNum
+      }]);
+    }
+
+    setArticulosDisponibles(prev =>
+      prev.map(item =>
+        item.codigo === seleccionado.codigo
+          ? { ...item, stock: item.stock - cantidadNum }
+          : item
+      )
+    );
 
     cerrarModal();
   };
 
   const resultados = articulosDisponibles.filter(p =>
-    p.codigo.toLowerCase().includes(busqueda.toLowerCase()) ||
-    p.nombre.toLowerCase().includes(busqueda.toLowerCase())
+    (p.codigo.toLowerCase().includes(busqueda.toLowerCase()) ||
+     p.nombre.toLowerCase().includes(busqueda.toLowerCase())) &&
+    p.stock > 0
   );
 
   const handleSubmit = (e) => {
@@ -220,6 +241,12 @@ const AñadirTraslados = () => {
                       placeholder="Cantidad a trasladar"
                       value={cantidad}
                       onChange={(e) => setCantidad(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && cantidad && seleccionado) {
+                          e.preventDefault();
+                          agregarArticulo();
+                        }
+                      }}
                     />
                   </div>
                 )}
