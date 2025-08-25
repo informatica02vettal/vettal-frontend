@@ -1,8 +1,39 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import './Listado.css';
 
 const AñadirTraslados = () => {
+    const navigate = useNavigate();
+    // Guardar el stock inicial para poder restaurarlo
+    const [stockInicial, setStockInicial] = useState([]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setDepositos([
+                'Almacén Central',
+                'Sucursal Norte',
+                'Sucursal Sur',
+                'Depósito 1',
+                'Depósito 2'
+            ]);
+            const inicial = [
+                { codigo: 'P001', nombre: 'Producto A', stock: 10 },
+                { codigo: 'P002', nombre: 'Producto B', stock: 5 },
+                { codigo: 'P003', nombre: 'Producto C', stock: 4 }
+            ];
+            setArticulosDisponibles(inicial);
+            setStockInicial(inicial);
+            setLoading(false);
+        }, 1000);
+    }, []);
+
+    const handleLimpiar = () => {
+        setForm({ origen: '', destino: '', comentarios: '' });
+        setArticulos([]);
+        setArticulosDisponibles(stockInicial);
+        toast.success('Formulario y stock restaurados');
+    };
     const [form, setForm] = useState({
         origen: '',
         destino: '',
@@ -32,7 +63,7 @@ const AñadirTraslados = () => {
             setArticulosDisponibles([
                 { codigo: 'P001', nombre: 'Producto A', stock: 10 },
                 { codigo: 'P002', nombre: 'Producto B', stock: 5 },
-                { codigo: 'P003', nombre: 'Producto C', stock: 0 }
+                { codigo: 'P003', nombre: 'Producto C', stock: 4 }
             ]);
             setLoading(false);
         }, 1000);
@@ -140,6 +171,11 @@ const AñadirTraslados = () => {
     return (
         <main className="container py-4">
             <Toaster position="top-right" />
+            <div className="mb-3">
+                <button type="button" className="btn btn-link" onClick={() => navigate('/')}> 
+                    <i className="fa-solid fa-arrow-left me-2"></i>Volver al listado
+                </button>
+            </div>
             <h1 className="h5 mb-4">Registro de Traslado</h1>
             <form className="row g-3" onSubmit={handleSubmit}>
                 <div className="col-md-6">
@@ -230,9 +266,12 @@ const AñadirTraslados = () => {
                     />
                 </div>
 
-                <div className="col-12">
-                    <button type="submit" className="btn btn-primary mt-3">
+                <div className="col-12 d-flex gap-2 mt-3">
+                    <button type="submit" className="btn btn-primary">
                         <i className="fa-solid fa-floppy-disk me-2"></i>Procesar Traslado
+                    </button>
+                    <button type="button" className="btn btn-outline-secondary" onClick={handleLimpiar}>
+                        <i className="fa-solid fa-eraser me-2"></i>Limpiar
                     </button>
                 </div>
             </form>
