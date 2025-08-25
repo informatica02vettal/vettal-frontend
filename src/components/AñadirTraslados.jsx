@@ -8,6 +8,7 @@ const AñadirTraslados = () => {
         destino: '',
         comentarios: ''
     });
+    const destinoRef = React.useRef(null);
 
     const [articulos, setArticulos] = useState([]);
     const [depositos, setDepositos] = useState([]);
@@ -42,7 +43,21 @@ const AñadirTraslados = () => {
     };
 
     const handleChange = (e) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        let newForm = { ...form, [name]: value };
+        // Si el usuario selecciona el mismo depósito en origen y destino, mostrar error y enfocar destino
+        if ((name === 'origen' && value === form.destino && value !== '') ||
+            (name === 'destino' && value === form.origen && value !== '')) {
+            toast.error('No puedes seleccionar el mismo depósito de origen y destino.');
+            if (name === 'origen' && destinoRef.current) {
+                destinoRef.current.focus();
+            }
+            if (name === 'destino' && e.target) {
+                e.target.focus();
+            }
+            return;
+        }
+        setForm(newForm);
     };
 
     const abrirModal = () => {
@@ -108,6 +123,11 @@ const AñadirTraslados = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (form.origen === form.destino && form.origen !== '') {
+            toast.error('No puedes seleccionar el mismo depósito de origen y destino.');
+            if (destinoRef.current) destinoRef.current.focus();
+            return;
+        }
         toast.success('Traslado guardado correctamente');
         setForm({ origen: '', destino: '', comentarios: '' });
         setArticulos([]);
@@ -145,6 +165,7 @@ const AñadirTraslados = () => {
                         onChange={handleChange}
                         className="form-select"
                         required
+                        ref={destinoRef}
                     >
                         <option value="">Seleccionar...</option>
                         {depositos.map((dep, i) => (
@@ -152,6 +173,7 @@ const AñadirTraslados = () => {
                         ))}
                     </select>
                 </div>
+                {/* El error ahora se muestra solo con toast */}
 
                 <div className="col-12">
                     <h2 className="h6 mb-3 mt-4">Artículos del traslado</h2>
@@ -210,7 +232,7 @@ const AñadirTraslados = () => {
 
                 <div className="col-12">
                     <button type="submit" className="btn btn-primary mt-3">
-                        <i className="fa-solid fa-floppy-disk me-2"></i>Guardar Traslado
+                        <i className="fa-solid fa-floppy-disk me-2"></i>Procesar Traslado
                     </button>
                 </div>
             </form>
