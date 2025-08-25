@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import './Listado.css';
 
 const AñadirTraslados = () => {
@@ -60,12 +61,12 @@ const AñadirTraslados = () => {
 
         const cantidadNum = parseInt(cantidad);
         if (isNaN(cantidadNum) || cantidadNum <= 0) {
-            alert('Cantidad inválida');
+            toast.error('Cantidad inválida');
             return;
         }
 
         if (cantidadNum > seleccionado.stock) {
-            alert('Cantidad excede el stock disponible');
+            toast.error('Cantidad excede el stock disponible');
             return;
         }
 
@@ -79,11 +80,13 @@ const AñadirTraslados = () => {
                         : a
                 )
             );
+            toast.success('Cantidad actualizada');
         } else {
             setArticulos([...articulos, {
                 codigo: seleccionado.codigo,
                 cantidad: cantidadNum
             }]);
+            toast.success('Artículo añadido');
         }
 
         setArticulosDisponibles(prev =>
@@ -105,7 +108,7 @@ const AñadirTraslados = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        alert('Traslado guardado correctamente');
+        toast.success('Traslado guardado correctamente');
         setForm({ origen: '', destino: '', comentarios: '' });
         setArticulos([]);
     };
@@ -116,6 +119,7 @@ const AñadirTraslados = () => {
 
     return (
         <main className="container py-4">
+            <Toaster position="top-right" />
             <h1 className="h5 mb-4">Registro de Traslado</h1>
             <form className="row g-3" onSubmit={handleSubmit}>
                 <div className="col-md-6">
