@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Listado.css';
 
 const ListadoTraslados = () => {
@@ -10,6 +11,7 @@ const ListadoTraslados = () => {
     { id: 3, fecha: '2025-08-22', origen: 'Depósito 1', destino: 'Sucursal Sur', estado: 'Procesado', total: 980.75 },
   ];
 
+  const navigate = useNavigate();
   const filtrados = traslados.filter(t =>
     Object.values(t).some(val =>
       String(val).toLowerCase().includes(busqueda.toLowerCase())
@@ -17,7 +19,7 @@ const ListadoTraslados = () => {
   );
 
   const handleAdd = () => {
-    alert('Acción para añadir nuevo traslado');
+    navigate('/añadir-traslado');
   };
 
   const handleView = (id) => {
@@ -32,7 +34,7 @@ const ListadoTraslados = () => {
           onClick={handleAdd}
           className="btn btn-primary btn-sm d-flex align-items-center"
         >
-          <i class="fa-solid fa-plus"></i>
+          <i className="fa-solid fa-plus"></i>
           <span>Añadir</span>
         </button>
       </div>
