@@ -1,0 +1,80 @@
+.bi {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+}
+
+/*
+ * Sidebar
+ */
+
+@media (min-width: 768px) {
+  .sidebar .offcanvas-lg {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 48px;
+  }
+  .navbar-search {
+    display: block;
+  }
+}
+
+.sidebar .nav-link {
+  font-size: .875rem;
+  font-weight: 500;
+}
+
+.sidebar .nav-link.active {
+  color: #2470dc;
+}
+
+.sidebar-heading {
+  font-size: .75rem;
+}
+
+/*
+ * Navbar
+ */
+
+.navbar-brand {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  background-color: rgba(0, 0, 0, .25);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+
+.navbar .form-control {
+  padding: .75rem 1rem;
+}
+
+.btn-bd-primary {
+  --bd-violet-bg: #712cf9;
+  --bd-violet-rgb: 112, 44, 249;
+
+  color: #fff !important; /* texto blanco */
+  background-color: var(--bd-violet-bg) !important; /* morado fijo */
+  border-color: var(--bd-violet-bg) !important;
+
+  /* Hover y active en tonos más oscuros */
+  &:hover {
+    background-color: #6528e0 !important;
+    border-color: #6528e0 !important;
+    color: #fff !important;
+  }
+
+  &:active,
+  &.active {
+    background-color: #5a23c8 !important;
+    border-color: #5a23c8 !important;
+    color: #fff !important;
+  }
+}
+
+.btn-bd-primary .bi {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle; 
+  font-size: 1.2rem; /* opcional, ajusta el tamaño */
+  line-height: 1;    /* quita espacio extra vertical */
+}

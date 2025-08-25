@@ -1,16 +1,20 @@
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Traslado from './components/Traslado';
+import Sidebar from './components/Sidebar';
+import Dashboard from './components/Dashboard';
+import ThemeToggle from './components/ThemeToggle';
 
 function App() {
   return (
     <div className="d-flex flex-column min-vh-100">
+      <ThemeToggle />
       <Header />
-      <main className="flex-grow-1 d-flex justify-content-center align-items-center">
-        <div className="w-100" style={{maxWidth: '600px'}}>
-          <Traslado />
-        </div>
-      </main>
+      <div className='container-fluid'>
+        <div className='row'>
+          <Sidebar />
+          <Dashboard />
+        </div>    
+      </div>
       <Footer />
     </div>
   );
