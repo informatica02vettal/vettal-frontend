@@ -3,6 +3,7 @@ import Footer from './components/Footer';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
 import ThemeToggle from './components/ThemeToggle';
+import { Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
@@ -12,8 +13,12 @@ function App() {
       <div className='container-fluid'>
         <div className='row'>
           <Sidebar />
-          <Dashboard />
-        </div>    
+          <div className="col">
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+            </Routes>
+          </div>
+        </div>
       </div>
       <Footer />
     </div>

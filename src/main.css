@@ -1,41 +1,68 @@
+/* ---------- Tipografía base ---------- */
+body {
+  font-size: .875rem;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  left: 0;
+  flex-shrink: 0;
+  z-index: 100; /* detrás del navbar si existe */
+  padding: 1rem;
+  background-color: #212529; /* text-bg-dark */
+  color: #fff;
+}
+
+/* Scroll interno si es necesario */
+.sidebar-sticky {
+  overflow-y: auto;
+}
+
+/* Enlaces del sidebar */
+.sidebar .nav-link {
+  font-size: .875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.sidebar .nav-link:hover {
+  color: #fff;
+}
+
+.nav-link.active {
+  background-color: #0d6efd !important; /* azul Bootstrap */
+  color: #fff !important;
+  border-radius: .375rem;
+}
+
+/* Iconos en el sidebar */
 .bi {
   display: inline-block;
   width: 1rem;
   height: 1rem;
+  vertical-align: middle;
 }
 
-/*
- * Sidebar
- */
-
-@media (min-width: 768px) {
-  .sidebar .offcanvas-lg {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 48px;
-  }
-  .navbar-search {
-    display: block;
+/* ---------- Responsive ---------- */
+@media (max-width: 767.98px) {
+  .sidebar {
+    position: relative;
+    height: auto;
+    padding: .5rem;
   }
 }
 
-.sidebar .nav-link {
-  font-size: .875rem;
-  font-weight: 500;
-}
-
-.sidebar .nav-link.active {
-  color: #2470dc;
-}
-
+/* ---------- Heading de secciones ---------- */
 .sidebar-heading {
   font-size: .75rem;
+  text-transform: uppercase;
+  margin-top: 1rem;
 }
 
-/*
- * Navbar
- */
-
+/* ---------- Navbar (si usas uno fijo) ---------- */
 .navbar-brand {
   padding-top: .75rem;
   padding-bottom: .75rem;
@@ -47,27 +74,25 @@
   padding: .75rem 1rem;
 }
 
+/* ---------- Botón primario personalizado ---------- */
 .btn-bd-primary {
   --bd-violet-bg: #712cf9;
   --bd-violet-rgb: 112, 44, 249;
 
-  color: #fff !important; /* texto blanco */
-  background-color: var(--bd-violet-bg) !important; /* morado fijo */
+  color: #fff !important;
+  background-color: var(--bd-violet-bg) !important;
   border-color: var(--bd-violet-bg) !important;
+}
 
-  /* Hover y active en tonos más oscuros */
-  &:hover {
-    background-color: #6528e0 !important;
-    border-color: #6528e0 !important;
-    color: #fff !important;
-  }
+.btn-bd-primary:hover {
+  background-color: #6528e0 !important;
+  border-color: #6528e0 !important;
+}
 
-  &:active,
-  &.active {
-    background-color: #5a23c8 !important;
-    border-color: #5a23c8 !important;
-    color: #fff !important;
-  }
+.btn-bd-primary:active,
+.btn-bd-primary.active {
+  background-color: #5a23c8 !important;
+  border-color: #5a23c8 !important;
 }
 
 .btn-bd-primary .bi {
@@ -75,6 +100,6 @@
   align-items: center;
   justify-content: center;
   vertical-align: middle; 
-  font-size: 1.2rem; /* opcional, ajusta el tamaño */
-  line-height: 1;    /* quita espacio extra vertical */
+  font-size: 1.2rem;
+  line-height: 1;
 }

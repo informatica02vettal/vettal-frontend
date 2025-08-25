@@ -1,118 +1,102 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function Sidebar() {
   return (
-    <div className="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
-      <div
-        className="offcanvas-md offcanvas-end bg-body-tertiary"
-        tabIndex="-1"
-        id="sidebarMenu"
-        aria-labelledby="sidebarMenuLabel"
+    <div
+      className="sidebar d-flex flex-column flex-shrink-0 p-3 text-bg-dark"
+      style={{ width: "280px" }}
+    >
+      {/* Logo y título */}
+      <NavLink
+        to="/"
+        className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"
       >
-        <div className="offcanvas-header">
-          <h5 className="offcanvas-title" id="sidebarMenuLabel">
-            Company name
-          </h5>
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="offcanvas"
-            data-bs-target="#sidebarMenu"
-            aria-label="Close"
-          ></button>
-        </div>
+        <i className="bi bi-bootstrap-fill pe-none me-2" style={{ fontSize: "1.5rem" }}></i>
+        <span className="fs-4">Sidebar</span>
+      </NavLink>
 
-        <div className="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
-          <ul className="nav flex-column">
-            <li className="nav-item">
-              <a className="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#">
-                <i className="bi bi-house-fill"></i>
-                Dashboard
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link d-flex align-items-center gap-2" href="#">
-                <i className="bi bi-file-earmark"></i>
-                Orders
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link d-flex align-items-center gap-2" href="#">
-                <i className="bi bi-cart"></i>
-                Products
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link d-flex align-items-center gap-2" href="#">
-                <i className="bi bi-people"></i>
-                Customers
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link d-flex align-items-center gap-2" href="#">
-                <i className="bi bi-graph-up"></i>
-                Reports
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link d-flex align-items-center gap-2" href="#">
-                <i className="bi bi-puzzle"></i>
-                Integrations
-              </a>
-            </li>
-          </ul>
+      <hr />
 
-          <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
-            <span>Saved reports</span>
-            <a className="link-secondary" href="#" aria-label="Add a new report">
-              <i className="bi bi-plus-circle"></i>
+      {/* Menú principal */}
+      <ul className="nav nav-pills flex-column mb-auto sidebar-sticky">
+        <li className="nav-item">
+          <NavLink to="/" end className="nav-link text-white">
+            <i className="bi bi-house pe-none me-2"></i>
+            Home
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/dashboard" className="nav-link text-white">
+            <i className="bi bi-speedometer2 pe-none me-2"></i>
+            Dashboard
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/orders" className="nav-link text-white">
+            <i className="bi bi-table pe-none me-2"></i>
+            Orders
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/products" className="nav-link text-white">
+            <i className="bi bi-grid pe-none me-2"></i>
+            Products
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/customers" className="nav-link text-white">
+            <i className="bi bi-people-circle pe-none me-2"></i>
+            Customers
+          </NavLink>
+        </li>
+      </ul>
+
+      <hr />
+
+      {/* Dropdown usuario */}
+      <div className="dropdown">
+        <a
+          href="#"
+          className="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <img
+            src="https://github.com/mdo.png"
+            alt=""
+            width="32"
+            height="32"
+            className="rounded-circle me-2"
+          />
+          <strong>mdo</strong>
+        </a>
+        <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
+          <li>
+            <a className="dropdown-item" href="#">
+              New project...
             </a>
-          </h6>
-
-          <ul className="nav flex-column mb-auto">
-            <li className="nav-item">
-              <a className="nav-link d-flex align-items-center gap-2" href="#">
-                <i className="bi bi-file-earmark-text"></i>
-                Current month
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link d-flex align-items-center gap-2" href="#">
-                <i className="bi bi-file-earmark-text"></i>
-                Last quarter
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link d-flex align-items-center gap-2" href="#">
-                <i className="bi bi-file-earmark-text"></i>
-                Social engagement
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link d-flex align-items-center gap-2" href="#">
-                <i className="bi bi-file-earmark-text"></i>
-                Year-end sale
-              </a>
-            </li>
-          </ul>
-
-          <hr className="my-3" />
-
-          <ul className="nav flex-column mb-auto">
-            <li className="nav-item">
-              <a className="nav-link d-flex align-items-center gap-2" href="#">
-                <i className="bi bi-gear-wide-connected"></i>
-                Settings
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link d-flex align-items-center gap-2" href="#">
-                <i className="bi bi-door-closed"></i>
-                Sign out
-              </a>
-            </li>
-          </ul>
-        </div>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Settings
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Profile
+            </a>
+          </li>
+          <li>
+            <hr className="dropdown-divider" />
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Sign out
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   );
